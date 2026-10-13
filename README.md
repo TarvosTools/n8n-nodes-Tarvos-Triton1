@@ -56,6 +56,8 @@ Requires **Node.js 22.22+** and self-hosted n8n. Runtime acceptance used **n8n 2
 
 ### Local development
 
+Use **Node.js 24.11.0 and npm 11.6.1** for source development and CI. The runtime minimum above does not cover all development dependencies. Run `npm install --global npm@11.6.1` if your development machine uses a different npm version.
+
 ```sh
 git clone https://github.com/TarvosTools/n8n-nodes-Tarvos-Triton1.git
 cd n8n-nodes-Tarvos-Triton1
