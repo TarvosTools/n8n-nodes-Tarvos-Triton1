@@ -29,7 +29,7 @@
               "id": "walletAddress",
               "name": "walletAddress",
               "type": "string",
-              "value": "J4JbpuWBnhQJ2Bj4VgUbiiUFPG5dgT5wYwRc9M7bxzbX"
+              "value": ""
             }
           ]
         },
@@ -76,7 +76,7 @@
         -80
       ],
       "parameters": {
-        "content": "CHECK A WALLET BALANCE. SOL is the readable balance; lamports are its exact smallest units. Example is our devnet test wallet.\n\n1. Open Your Inputs to choose the address or signature.\n2. Select your Devnet Triton credential in Read from Triton.\n3. Execute Workflow, then open Result. This template only reads data; no wallet key is needed.",
+        "content": "CHECK A WALLET BALANCE. SOL is the readable balance; lamports are its exact smallest units. Enter your own public address.\n\n1. Open Your Inputs to choose the address or signature.\n2. Select your Devnet Triton credential in Read from Triton.\n3. Execute Workflow, then open Result. This template only reads data; no wallet key is needed.",
         "width": 900,
         "height": 260
       }

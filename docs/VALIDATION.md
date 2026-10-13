@@ -28,31 +28,31 @@ Fixed gRPC event classification to skip null/undefined protobuf oneof members. W
 
 Evidence: `test-results/remaining-services.json`, `test-results/devnet-bundle-check.json`, `test-results/monitor-n8n.json`, `test-results/remaining-offline.log`. Remaining specialized feeds, Account Sync/worker live integration, management, Cascade/Shield and Titan require their own acceptance checks. [Current Devnet-only access checklist](LIVE-TEST-SETUP.md).
 
-![Actual n8n Devnet monitor output](devnet-monitor-pass.png)
+
 
 ## Manual rerun repair and five basic templates: 13 October 2026
 
 The original manual execution 2 reported a false failure: its transaction finalized, but the test compared the recipient's cumulative balance against exactly 0.001 SOL. After repeated transfers that comparison is invalid. The repaired workflow fetches the submitted transaction and checks its signature, successful metadata, fee cap and recipient post-minus-pre balance against the intended amount. Regression coverage includes repeated runs, wrong credit, failed transactions and excessive fees.
 
-Actual n8n CLI executions 3–6 passed the four read-only [basic templates](../examples/basic/README.md): wallet balance, recent wallet activity, token supply and transaction inspection. Two actual editor-triggered executions, 7 and 8, passed the repaired transfer. Each sent 0.001 devnet SOL, finalized, credited exactly 1,000,000 lamports and paid 5,000 lamports in fees. The second signature is `66uTYJvCkPw7g2XVpj5YmM35ty3oKaN88JZbykrQKrj4ztYLCKXBCXGhqLQQeZ8ZbE4RCcuFquydqPr9HTjiMwJn`.
+Actual n8n CLI executions 3–6 passed the four read-only [basic templates](../examples/basic/README.md): wallet balance, recent wallet activity, token supply and transaction inspection. Two actual editor-triggered executions, 7 and 8, passed the repaired transfer. Each sent 0.001 devnet SOL, finalized, credited exactly 1,000,000 lamports and paid 5,000 lamports in fees. Transaction identifiers are omitted from the public report.
 
 The saved credential targets the assigned Devnet rpcpool.com endpoint. Six additional authenticated read checks (genesis hash, health, version, slot, epoch information and recent prioritization fees) returned HTTP 200 with valid RPC results; genesis matched Devnet. No public-RPC fallback was used. Sanitized evidence: local `test-results/basic-live-validation.json`. This proves the configured endpoint responds; dashboard aggregation, reporting delay and billing visibility were not independently verified.
 
 Fresh complete offline run: **144 node tests and 7 worker tests pass**, with build, typecheck, lint, local gRPC, 5,000-event worker checks and actual n8n execution-context checks. These results do not establish live Titan swaps, streaming, DAS, Cascade, management APIs, Linux or queue deployment. The historical sections below describe earlier runs and retain their original limitations.
 
-![Manual repeated transfer verified successfully](devnet-manual-repeat-pass.png)
+
 
 ## Authenticated Triton and saved n8n wallet: 13 October 2026
 
-Created encrypted `Solana Devnet Test` credential and an inactive manual workflow, `Triton - Devnet Wallet Acceptance` (`TarvosDevTest001`). Real n8n CLI execution uses the existing `Triton One Solana account` credential, reads sender balance and a fresh blockhash, constructs a 0.001 devnet SOL transfer, enforces a 10,000-lamport network-fee ceiling, resolves the attached Solana Wallet from encrypted storage, simulates the signed transaction, submits once and checks confirmation and exact recipient balance. All stages passed; the transaction finalized with a 5,000-lamport fee. No mock/public endpoint adapter was used.
+Created encrypted `Solana Devnet Test` credential and an inactive manual workflow, `Triton - Devnet Wallet Acceptance` (local-only ID omitted). Real n8n CLI execution uses the existing `Triton One Solana account` credential, reads sender balance and a fresh blockhash, constructs a 0.001 devnet SOL transfer, enforces a 10,000-lamport network-fee ceiling, resolves the attached Solana Wallet from encrypted storage, simulates the signed transaction, submits once and checks confirmation and exact recipient balance. All stages passed; the transaction finalized with a 5,000-lamport fee. No mock/public endpoint adapter was used.
 
-Signature: `4GvahsFz62mHriZi6Hb4RqcG3NmUbifZZhBszLenaK4oRedkgip1YsRk4hFBjwEKvAAja5WPn7jfwHHJ8dBGNs5R`. Evidence: `test-results/n8n-devnet-acceptance.json` and the saved n8n execution. The wallet private key was never printed or placed in workflow parameters. The import artifact was encrypted using the local n8n instance key. This validates authenticated standard Triton devnet RPC and wallet submission, not Titan mainnet swaps or other service entitlements. The existing monitoring workflow was not modified.
+Transaction identifier omitted. Evidence: `test-results/n8n-devnet-acceptance.json` and the saved n8n execution. The wallet private key was never printed or placed in workflow parameters. The import artifact was encrypted using the local n8n instance key. This validates authenticated standard Triton devnet RPC and wallet submission, not Titan mainnet swaps or other service entitlements. The existing monitoring workflow was not modified.
 
 ## Funded devnet validation: 13 October 2026
 
 The dedicated test wallet received 5 devnet SOL. The compiled node and wallet capability passed network identity, signed preflight simulation, one 0.001 devnet SOL submission, finalized confirmation and exact recipient balance verification through the public-RPC test adapter. A separate read of the finalized transaction confirms success, a 5,000-lamport fee, slot 510445601, and remaining sender balance of 4.998995 devnet SOL.
 
-[Finalized transaction](https://explorer.solana.com/tx/2JB6Lk7m4LuZHJ74ajZVRMiz759mziFStQQb3XXfBFMhsqXh5FJHouqQ2GYi3EyUfwGUpSH4eTghiaH2J6UZzBhE?cluster=devnet). Evidence: local `test-results/devnet.json`, timestamped run report and `test-results/devnet-finalized.json`. No retry or second submission occurred. This proves the public-devnet standard transaction path, not authenticated Triton/Cascade delivery, live n8n editor execution or a Titan swap. Mainnet submission remains unperformed.
+The finalized transaction was verified during the local test. Evidence: local `test-results/devnet.json`, timestamped run report and `test-results/devnet-finalized.json`. No retry or second submission occurred. This proves the public-devnet standard transaction path, not authenticated Triton/Cascade delivery, live n8n editor execution or a Titan swap. Mainnet submission remains unperformed.
 
 ## Swap enforcement update: 13 October 2026
 

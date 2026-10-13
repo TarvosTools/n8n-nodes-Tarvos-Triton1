@@ -77,6 +77,6 @@ Titan live quotes/swaps, specialized Deshred/Vixen/Fumarole feeds, Cascade/Shiel
 
 n8n restarted with the tested build. The actual editor shows History, Token Accounts by Mint and Address History Export disabled for the saved Devnet credential; Titan shows Mainnet required. Export Blocks, delegate queries and bundle simulation remain selectable. After restoring the balance template, a fresh editor execution passed with 4.994975 devnet SOL at finalized slot 510457823. UI verification briefly produced an expression-entry error; the restored expression and subsequent execution both passed.
 
-![Disabled history choice with explanation](availability-devnet.png)
 
-![Live balance check after restart](devnet-post-restart-pass.png)
+
+

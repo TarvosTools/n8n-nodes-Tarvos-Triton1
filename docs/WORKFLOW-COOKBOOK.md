@@ -2,7 +2,7 @@
 
 [Back to README](../README.md) · [Credentials](CREDENTIALS.md) · [Monitoring](MONITORING.md)
 
-Import JSON through n8n's workflow menu, map your credentials, and inspect every input before execution. Templates are inactive and contain no tokens or keys. Their demonstration wallet/signature values are examples, not your wallet. Devnet examples should remain on Devnet.
+Import JSON through n8n's workflow menu, map your credentials, and inspect every input before execution. Templates are inactive and contain no tokens or keys. Wallet addresses and transaction signatures start blank; supply your own. Devnet examples should remain on Devnet.
 
 ## 1. Check a wallet's SOL balance
 

@@ -29,7 +29,7 @@
               "id": "signature",
               "name": "signature",
               "type": "string",
-              "value": "4EKBDHGmemBGerufCSaF3ffwxW3RqwgbVAEJG5PLThxaHn5HK63SnpSd8FnhvAEvZPoyp6KxSAMUPuKCccnDd5fZ"
+              "value": ""
             }
           ]
         },
@@ -78,7 +78,7 @@
         -80
       ],
       "parameters": {
-        "content": "VERIFY A TRANSACTION. The example is the manual run previously shown as failed by our old balance assertion. Its on-chain transaction succeeded.\n\n1. Open Your Inputs to choose the address or signature.\n2. Select your Devnet Triton credential in Read from Triton.\n3. Execute Workflow, then open Result. This template only reads data; no wallet key is needed.",
+        "content": "VERIFY A TRANSACTION. Enter your own transaction signature for the selected network.\n\n1. Open Your Inputs to choose the address or signature.\n2. Select your Devnet Triton credential in Read from Triton.\n3. Execute Workflow, then open Result. This template only reads data; no wallet key is needed.",
         "width": 900,
         "height": 260
       }

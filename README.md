@@ -150,7 +150,7 @@ Standard submission can validate already-signed transactions. Cascade and existi
 
 ## Ready-to-import templates
 
-Examples are inactive and contain no API tokens or signing keys. Remap credentials and replace demonstration inputs after import. Transaction examples can send when deliberately configured and executed.
+Examples are inactive and contain no API tokens or signing keys. Map your own credentials and fill in blank wallet/address/signature inputs after import. Transaction examples can send when deliberately configured and executed.
 
 | Template | Result |
 | --- | --- |

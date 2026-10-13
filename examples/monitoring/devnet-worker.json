@@ -41,7 +41,7 @@
         "resource": "worker",
         "operation": "getAccount",
         "showAdvanced": true,
-        "workerAddress": "J4JbpuWBnhQJ2Bj4VgUbiiUFPG5dgT5wYwRc9M7bxzbX",
+        "workerAddress": "",
         "maxSlotLag": 75
       }
     },
