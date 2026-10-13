@@ -1,0 +1,92 @@
+{
+  "name": "Triton — Digital asset inventory",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "owner-assets",
+      "name": "Owner Assets",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "digitalAsset",
+        "operation": "getByOwner",
+        "address": "",
+        "retrieval": "onePage",
+        "outputMode": "split"
+      }
+    },
+    {
+      "id": "asset-detail",
+      "name": "Asset Detail",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        600,
+        180
+      ],
+      "parameters": {
+        "resource": "digitalAsset",
+        "operation": "get",
+        "address": "={{$json.data.id}}"
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Configure a mainnet Triton endpoint with DAS access and select its credential on both nodes. Enter the owner address. Empty inventory produces no detail calls. Metadata URLs are returned as data and never fetched automatically.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Owner Assets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Owner Assets": {
+      "main": [
+        [
+          {
+            "node": "Asset Detail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

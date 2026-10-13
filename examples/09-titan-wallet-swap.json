@@ -1,0 +1,95 @@
+{
+  "name": "Triton � Titan swap with Solana Wallet",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "titan-swap",
+      "name": "Titan Swap",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "titan",
+        "operation": "swap",
+        "inputMint": "So11111111111111111111111111111111111111112",
+        "outputMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "titanAmount": "",
+        "minimumOutput": "",
+        "slippageBps": 50,
+        "computeUnitPrice": "0"
+      }
+    },
+    {
+      "id": "wallet",
+      "name": "Solana Wallet",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosSolanaWallet",
+      "typeVersion": 1,
+      "position": [
+        360,
+        420
+      ],
+      "parameters": {
+        "publicAddress": "",
+        "network": "mainnet",
+        "signingMode": "sign"
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "MAINNET TRANSACTION ACTION. Enter your amounts, minimum output, wallet and credentials deliberately. Executing this workflow can spend funds. The node obtains a fresh Titan quote, simulates, signs through Solana Wallet, and submits once. Confirm the returned signature separately. No credentials or funded accounts are included.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Titan Swap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solana Wallet": {
+      "ai_tool": [
+        [
+          {
+            "node": "Titan Swap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

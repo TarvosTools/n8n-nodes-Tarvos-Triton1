@@ -1,0 +1,66 @@
+{
+  "name": "Triton — Priority fee observation",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "median-fee-samples",
+      "name": "Median Fee Samples",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "fee",
+        "operation": "getRecentPriorityFees",
+        "feeMode": "percentile",
+        "percentile": 5000,
+        "writableAccounts": "[]"
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Select your Triton credential. Optionally set the transaction’s writable account addresses. Each sample retains its slot. Add your chosen aggregation downstream; samples are observations, not a guaranteed landing fee. No transaction is submitted.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Median Fee Samples",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

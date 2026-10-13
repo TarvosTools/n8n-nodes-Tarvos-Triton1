@@ -1,0 +1,124 @@
+{
+  "name": "Triton Basics - Check SOL Balance",
+  "active": false,
+  "nodes": [
+    {
+      "id": "start",
+      "name": "Run Manually",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        240
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "inputs",
+      "name": "Your Inputs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        240
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "walletAddress",
+              "name": "walletAddress",
+              "type": "string",
+              "value": "J4JbpuWBnhQJ2Bj4VgUbiiUFPG5dgT5wYwRc9M7bxzbX"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "read",
+      "name": "Read from Triton",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        240
+      ],
+      "parameters": {
+        "resource": "account",
+        "operation": "getBalance",
+        "address": "={{ $json.walletAddress }}"
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "result",
+      "name": "Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        240
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const r=$input.first().json;return [{json:{wallet:$('Your Inputs').first().json.walletAddress,network:r.meta.network,sol:r.data.sol,lamports:r.data.lamports,slot:r.meta.context.slot}}];"
+      }
+    },
+    {
+      "id": "help",
+      "name": "Start Here",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -80
+      ],
+      "parameters": {
+        "content": "CHECK A WALLET BALANCE. SOL is the readable balance; lamports are its exact smallest units. Example is our devnet test wallet.\n\n1. Open Your Inputs to choose the address or signature.\n2. Select your Devnet Triton credential in Read from Triton.\n3. Execute Workflow, then open Result. This template only reads data; no wallet key is needed.",
+        "width": 900,
+        "height": 260
+      }
+    }
+  ],
+  "connections": {
+    "Run Manually": {
+      "main": [
+        [
+          {
+            "node": "Your Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Your Inputs": {
+      "main": [
+        [
+          {
+            "node": "Read from Triton",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read from Triton": {
+      "main": [
+        [
+          {
+            "node": "Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

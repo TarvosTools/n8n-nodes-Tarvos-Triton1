@@ -1,0 +1,26 @@
+node_modules/
+dist/
+*.tgz
+*.tsbuildinfo
+.env
+.n8n/
+coverage/
+
+.test-runtime/
+test-results/
+test/live.config.json
+
+# Local credentials, worker storage and development artifacts
+.env.*
+!.env.example
+*.log
+*.sqlite*
+*.db*
+*.pem
+*.key
+*keypair*.json
+.local-*/
+.pack-result.json
+worker/config.json
+worker/fumarole-reference.json
+worker/data/

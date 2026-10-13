@@ -1,0 +1,111 @@
+{
+  "name": "n8n-nodes-tarvos-triton-one",
+  "version": "0.2.0",
+  "description": "Solana data, monitoring and wallet-connected transaction submission through Triton One",
+  "license": "MIT",
+  "homepage": "https://github.com/TarvosTools/n8n-nodes-Tarvos-Triton1#readme",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "solana",
+    "triton",
+    "tarvos"
+  ],
+  "author": {
+    "name": "TarvosTools",
+    "email": "hello@tarvos.tools",
+    "url": "https://tarvos.tools"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "build": "n8n-node build && node scripts/copy-assets.cjs",
+    "dev": "n8n-node dev",
+    "typecheck": "tsc --noEmit",
+    "lint": "n8n-node lint",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "prepublishOnly": "n8n-node prerelease",
+    "test:offline": "node scripts/test-offline.cjs",
+    "test:setup-runtime": "npm install --prefix .test-runtime --ignore-scripts --no-audit --no-fund n8n@2.32.6",
+    "test:live": "node scripts/test-live.cjs",
+    "test:public": "node scripts/test-live.cjs public",
+    "test:devnet": "node scripts/test-live.cjs devnet",
+    "test:simulation": "node scripts/test-live.cjs simulation",
+    "test:provider": "node scripts/test-live.cjs provider",
+    "test:titan-simulation": "node scripts/test-live.cjs titan-simulation",
+    "test:worker-load": "node scripts/worker-load.cjs"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "examples",
+    "SECURITY.md",
+    "!dist/docs",
+    "!dist/package.json",
+    "!dist/tsconfig.tsbuildinfo",
+    "worker",
+    "!worker/node_modules",
+    "!worker/fumarole-reference.json",
+    "pdr.md",
+    "!worker/config.json",
+    "!worker/data",
+    "!worker/.env",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": false,
+    "credentials": [
+      "dist/credentials/TritonOneSolanaApi.credentials.js",
+      "dist/credentials/TarvosSolanaWalletApi.credentials.js",
+      "dist/credentials/TritonStreamApi.credentials.js",
+      "dist/credentials/TritonManagementApi.credentials.js",
+      "dist/credentials/TritonWorkerApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/TarvosTritonOne/TarvosTritonOne.node.js",
+      "dist/nodes/TarvosSolanaWallet/TarvosSolanaWallet.node.js",
+      "dist/nodes/TarvosTritonTrigger/TarvosTritonTrigger.node.js"
+    ]
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "1.14.6",
+    "@grpc/proto-loader": "0.8.1",
+    "@msgpack/msgpack": "3.1.3",
+    "@noble/curves": "1.9.7",
+    "@solana/web3.js": "1.98.4",
+    "@triton-one/vixen-stream": "0.4.1",
+    "@triton-one/yellowstone-grpc": "9.0.0",
+    "bs58": "6.0.0",
+    "ws": "8.22.0"
+  },
+  "devDependencies": {
+    "@emnapi/core": "1.10.0",
+    "@emnapi/runtime": "1.10.0",
+    "@emnapi/wasi-threads": "1.2.3",
+    "@n8n/node-cli": "0.49.1",
+    "@types/node": "22.19.0",
+    "@types/ws": "8.18.1",
+    "eslint": "9.32.0",
+    "ignore": "7.0.12",
+    "n8n-workflow": "2.16.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TarvosTools/n8n-nodes-Tarvos-Triton1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TarvosTools/n8n-nodes-Tarvos-Triton1/issues"
+  }
+}

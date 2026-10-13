@@ -1,0 +1,12 @@
+node_modules
+worker/node_modules
+worker/data
+worker/config.json
+*.tgz
+test
+.env
+worker/.env
+.test-runtime
+test-results
+*.log
+.n8n

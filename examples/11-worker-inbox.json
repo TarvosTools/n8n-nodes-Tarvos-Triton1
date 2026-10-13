@@ -1,0 +1,82 @@
+{
+  "name": "Triton � Durable worker inbox",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "read-inbox",
+      "name": "Read Inbox",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "getEvents",
+        "consumer": "n8n-monitor",
+        "eventLimit": 100
+      }
+    },
+    {
+      "id": "acknowledge-after-processing",
+      "name": "Acknowledge After Processing",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        900,
+        180
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "acknowledgeEvents",
+        "consumer": "n8n-monitor",
+        "receipt": "={{$('Read Inbox').item.json.data.receipt}}"
+      },
+      "disabled": true
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Select the worker credential. Read Inbox returns events plus one durable receipt. Add your downstream durable processing, then connect and enable Acknowledge After Processing. Do not acknowledge empty batches or before processing succeeds. Use one workflow per consumer and make downstream side effects idempotent by eventId.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Inbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

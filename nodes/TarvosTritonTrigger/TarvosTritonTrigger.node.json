@@ -1,0 +1,9 @@
+{
+  "node": "n8n-nodes-tarvos-triton-one.tarvosTritonTrigger",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": ["Data & Storage", "Finance & Accounting"],
+  "resources": {
+    "primaryDocumentation": [{ "url": "https://docs.triton.one/chains/solana" }]
+  }
+}

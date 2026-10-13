@@ -1,0 +1,68 @@
+{
+  "name": "Triton — Address activity",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "address-history",
+      "name": "Address History",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "transaction",
+        "operation": "getHistory",
+        "address": "",
+        "retrieval": "upToLimit",
+        "pageSize": 50,
+        "totalLimit": 100,
+        "requestBudget": 20
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Set the public address and credential. Replace Manual Trigger with Schedule Trigger for monitoring. Store signatures with a UNIQUE(network, signature) key in your database. Save the returned continuation only after successful upserts. Overlap time/slot windows when reconciling. Storage is deployment-specific and is not preconfigured.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Address History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

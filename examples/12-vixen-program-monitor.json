@@ -1,0 +1,42 @@
+{
+  "name": "Triton � Vixen parsed program monitoring",
+  "active": false,
+  "nodes": [
+    {
+      "id": "stream",
+      "name": "Triton Stream",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "source": "vixen",
+        "vixenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "batchSize": 100,
+        "executionLimit": 60
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Requires a Vixen-enabled endpoint and Triton Stream API credential. This is program-wide and can be high volume. Use the worker and a durable sink for sustained traffic. Parser output is provider-specific and may omit slot context.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

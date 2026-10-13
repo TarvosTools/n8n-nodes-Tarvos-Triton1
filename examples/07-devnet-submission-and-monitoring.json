@@ -1,0 +1,145 @@
+{
+  "name": "Triton — Devnet submission and monitoring",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "submit-transaction",
+      "name": "Submit Transaction",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "transaction",
+        "operation": "submit",
+        "transaction": "",
+        "preflightCommitment": "confirmed",
+        "maxRetries": 0
+      }
+    },
+    {
+      "id": "wallet",
+      "name": "Solana Wallet",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosSolanaWallet",
+      "typeVersion": 1,
+      "position": [
+        360,
+        410
+      ],
+      "parameters": {
+        "publicAddress": "",
+        "network": "devnet",
+        "signingMode": "sign"
+      }
+    },
+    {
+      "id": "wait",
+      "name": "Wait 5 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        600,
+        180
+      ],
+      "parameters": {
+        "resume": "timeInterval",
+        "amount": 5,
+        "unit": "seconds"
+      }
+    },
+    {
+      "id": "transaction-status",
+      "name": "Transaction Status",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        900,
+        180
+      ],
+      "parameters": {
+        "resource": "transaction",
+        "operation": "getStatuses",
+        "signatures": "={{JSON.stringify([$json.data.signature])}}",
+        "searchTransactionHistory": true
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "DEVNET ONLY starter. Set the Triton credential to Devnet. Click the wallet below Submit: enter Public Address and create/select its wallet credential. Paste your own prepared transaction. Manual execution can submit it. The bounded example checks once after 5 seconds; unknown/pending requires later reconciliation, not blind resubmission. For already-signed input, change the wallet mode; no private key is required.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Submit Transaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Transaction": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Transaction Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solana Wallet": {
+      "ai_tool": [
+        [
+          {
+            "node": "Submit Transaction",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

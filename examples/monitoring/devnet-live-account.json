@@ -1,0 +1,66 @@
+{
+  "name": "Triton Devnet - Live Account Monitor",
+  "active": false,
+  "nodes": [
+    {
+      "id": "watch",
+      "name": "Watch Live Devnet",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        300
+      ],
+      "parameters": {
+        "setupExperience": "simple",
+        "watchTask": "account",
+        "simpleAddress": "SysvarC1ock11111111111111111111111111111111"
+      }
+    },
+    {
+      "id": "result",
+      "name": "Monitoring Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "jsCode": "return $input.all();"
+      }
+    },
+    {
+      "id": "help",
+      "name": "Instructions",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        0
+      ],
+      "parameters": {
+        "content": "DEVNET LIVE MONITOR. Execute workflow to listen for one batch. The Solana clock account changes frequently, so no transfer or wallet key is needed. Change Address to Watch to your wallet to monitor its changes; an inactive wallet may time out. This workflow stays unpublished to avoid continuous executions.",
+        "width": 600,
+        "height": 230
+      }
+    }
+  ],
+  "connections": {
+    "Watch Live Devnet": {
+      "main": [
+        [
+          {
+            "node": "Monitoring Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

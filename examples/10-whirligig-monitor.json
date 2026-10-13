@@ -1,0 +1,44 @@
+{
+  "name": "Triton � Whirligig account monitoring",
+  "active": false,
+  "nodes": [
+    {
+      "id": "stream",
+      "name": "Triton Stream",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "source": "whirligig",
+        "topic": "account",
+        "watchAddress": "",
+        "wsOptions": "{\"commitment\":\"confirmed\"}",
+        "batchSize": 100,
+        "flushMs": 1000
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Select an RPC credential and enter the address to watch. Manual listening stops after the first batch. Published workflows listen continuously. Disconnects can leave gaps; use a worker when you need a durable inbox.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

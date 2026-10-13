@@ -1,0 +1,157 @@
+{
+  "name": "Triton Devnet - Worker Acceptance",
+  "active": false,
+  "nodes": [
+    {
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "Worker Status",
+      "name": "Worker Status",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        250,
+        200
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "getStatus",
+        "showAdvanced": true
+      }
+    },
+    {
+      "id": "Synced Account",
+      "name": "Synced Account",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        500,
+        200
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "getAccount",
+        "showAdvanced": true,
+        "workerAddress": "J4JbpuWBnhQJ2Bj4VgUbiiUFPG5dgT5wYwRc9M7bxzbX",
+        "maxSlotLag": 75
+      }
+    },
+    {
+      "id": "Read Events",
+      "name": "Read Events",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        750,
+        200
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "getEvents",
+        "showAdvanced": true,
+        "consumer": "n8n-monitor",
+        "eventLimit": 5
+      }
+    },
+    {
+      "id": "Acknowledge Test Events",
+      "name": "Acknowledge Test Events",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        1000,
+        200
+      ],
+      "parameters": {
+        "resource": "worker",
+        "operation": "acknowledgeEvents",
+        "showAdvanced": true,
+        "consumer": "n8n-monitor",
+        "receipt": "={{ $json.data.receipt }}"
+      }
+    },
+    {
+      "id": "verify",
+      "name": "Verify Worker",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const account=$('Synced Account').first().json.data; const events=$('Read Events').first().json.data.events; if(!$input.first().json.data.acknowledged || !events.length || account.network!=='devnet') throw Error('Worker acceptance failed'); if(events.some(e=>e.source==='dragon' && (e.kind!=='slot'||!e.slot))) throw Error('Slot metadata regression'); return [{json:{status:'PASS',eventCount:events.length,network:account.network,accountLamports:account.account.lamports,rentEpoch:account.account.rentEpoch,provenance:account.provenance,transportDegraded:account.transportDegraded,acknowledged:true}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Worker Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Worker Status": {
+      "main": [
+        [
+          {
+            "node": "Synced Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Synced Account": {
+      "main": [
+        [
+          {
+            "node": "Read Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Events": {
+      "main": [
+        [
+          {
+            "node": "Acknowledge Test Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Acknowledge Test Events": {
+      "main": [
+        [
+          {
+            "node": "Verify Worker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

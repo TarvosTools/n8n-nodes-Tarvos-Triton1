@@ -1,0 +1,31 @@
+name: Package checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: node scripts/grpc-loopback.cjs
+      - run: npm run test:setup-runtime
+      - run: node scripts/runtime-smoke.cjs .test-runtime/node_modules
+      - run: npm ci --ignore-scripts
+        working-directory: worker
+      - run: npm test
+        working-directory: worker
+      - run: npm run test:worker-load
+      - run: node scripts/generate-examples.cjs
+      - run: git diff --exit-code -- examples docs/operation-contract.json
+      - run: npm pack --dry-run

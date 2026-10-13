@@ -1,0 +1,89 @@
+{
+  "name": "Triton — Connection and balance",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "network-identity",
+      "name": "Network Identity",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        180
+      ],
+      "parameters": {
+        "resource": "network",
+        "operation": "getGenesisHash"
+      }
+    },
+    {
+      "id": "sol-balance",
+      "name": "SOL Balance",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        600,
+        180
+      ],
+      "parameters": {
+        "resource": "account",
+        "operation": "getBalance",
+        "address": "11111111111111111111111111111111"
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Select your Triton credential on both nodes. Replace the sample system-program address with your wallet. Network identity is also checked automatically for every Triton node execution.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Network Identity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Network Identity": {
+      "main": [
+        [
+          {
+            "node": "SOL Balance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

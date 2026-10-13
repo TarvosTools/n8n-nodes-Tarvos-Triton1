@@ -1,0 +1,53 @@
+{
+  "name": "Guided Titan quote through Solana Wallet",
+  "active": false,
+  "nodes": [
+    {
+      "id": "guided-quote",
+      "name": "Get a Swap Quote",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        200
+      ],
+      "parameters": {
+        "resource": "titan",
+        "operation": "quote",
+        "quoteWallet": "wallet",
+        "showAdvanced": false,
+        "tradeAmount": "0.1"
+      }
+    },
+    {
+      "id": "quote-wallet",
+      "name": "Solana Wallet",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosSolanaWallet",
+      "typeVersion": 1,
+      "position": [
+        400,
+        420
+      ],
+      "parameters": {
+        "network": "mainnet",
+        "signingMode": "readOnly",
+        "publicAddress": ""
+      }
+    }
+  ],
+  "connections": {
+    "Solana Wallet": {
+      "ai_tool": [
+        [
+          {
+            "node": "Get a Swap Quote",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "pinData": {}
+}

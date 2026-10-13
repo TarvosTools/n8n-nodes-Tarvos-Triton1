@@ -1,0 +1,25 @@
+{
+  "host": "127.0.0.1",
+  "port": 5690,
+  "database": "./data/inbox.sqlite",
+  "consumers": ["n8n-monitor"],
+  "maxEvents": 1000000,
+  "sources": [
+    {
+      "name": "mainnet-accounts",
+      "type": "fumarole",
+      "endpoint": "https://ams.rpcpool.com/",
+      "tokenEnv": "TRITON_API_TOKEN",
+      "request": {
+        "commitment": "FINALIZED",
+        "accounts": {
+          "watched": {
+            "account": ["So11111111111111111111111111111111111111112"],
+            "owner": [],
+            "filters": []
+          }
+        }
+      }
+    }
+  ]
+}

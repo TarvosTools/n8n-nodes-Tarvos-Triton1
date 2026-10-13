@@ -1,0 +1,86 @@
+{
+  "name": "Triton — Token inventory",
+  "active": false,
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        180
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "spl-accounts",
+      "name": "SPL Accounts",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        80
+      ],
+      "parameters": {
+        "resource": "token",
+        "operation": "getByOwner",
+        "address": "",
+        "tokenFilter": "spl"
+      }
+    },
+    {
+      "id": "token-2022-accounts",
+      "name": "Token 2022 Accounts",
+      "type": "n8n-nodes-tarvos-triton-one.tarvosTritonOne",
+      "typeVersion": 1,
+      "position": [
+        300,
+        300
+      ],
+      "parameters": {
+        "resource": "token",
+        "operation": "getByOwner",
+        "address": "",
+        "tokenFilter": "token2022"
+      }
+    },
+    {
+      "id": "instructions",
+      "name": "Setup Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -180
+      ],
+      "parameters": {
+        "content": "Enter the same owner public address and select the Triton credential on both branches. Each token program is queried independently. Preserve token-account addresses when storing results.",
+        "width": 650,
+        "height": 220
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "SPL Accounts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Token 2022 Accounts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
